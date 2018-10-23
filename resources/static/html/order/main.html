@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>订单列表</title>
+<script src="/easyui/jquery.min.js"></script>
+<script src=/easyui/jquery.easyui.min.js></script>
+<link href="/easyui/themes/default/easyui.css" rel="stylesheet"/>
+<link href="/easyui/themes/icon.css" rel="stylesheet"/>
+<script type="text/javascript" src="/easyui/locale/easyui-lang-zh_CN.js"></script>
+<script type="text/javascript" src="main.js"></script>
+<style type="text/css">
+    #fm{
+      margin:0;
+      padding:10px 30px;
+    }
+    .ftitle{
+      text-align: center;
+      font-size:14px;
+      font-weight:bold;
+      color:#666;
+      padding:5px 0;
+      margin-bottom:10px;
+      border-bottom:1px solid #ccc;
+    }
+    .fitem{
+      margin-bottom:5px;
+    }
+    .fitem label{
+      display:inline-block;
+      width:80px;
+    }
+</style>
+</head>
+<body>
+  <table id="dg" title="订单列表" class="easyui-datagrid" style="width:100%;"
+    url="/order/orders"
+    toolbar="#toolbar" method="get" 
+    rownumbers="true" fitColumns="true" singleSelect="true" pagination="true">
+    <thead>
+      <tr>
+        <th field="id" width="50">ID</th>
+        <th field="name" width="50">姓名</th>
+        <th field="user_id" width="50">用户ID</th>
+        <th field="create_time" width="50">创建日期</th>
+        <th field="order_status" formatter="formatterGender" width="50">订单状态</th>
+        <th field="price" width="50">价格</th>
+        <th field="pay_time"  width="50">付款日期</th>
+      </tr>
+    </thead>
+  </table>
+  <div id="toolbar">
+    <a id="add" href="#" class="easyui-linkbutton" iconCls="icon-add" plain="true">新增</a>
+    <a id="edit" href="#" class="easyui-linkbutton" iconCls="icon-edit" plain="true" >编辑</a>
+    <a id="delete" href="#" class="easyui-linkbutton" iconCls="icon-remove" plain="true" >删除</a>
+    <a id="buy" href="#" class="easyui-linkbutton" plain="true" >购买</a>
+    <span>ID:</span>
+    <input id="toolbar_id" class="easyui-textbox">
+    <span>帐号:</span>
+    <input id="toolbar_name"class="easyui-textbox">
+    <a href="#" class="easyui-linkbutton" iconCls="icon-search" id="do_search" >搜索</a>
+  </div>
+  <!-- 编辑和新增 --> 
+  <div id="dlg" class="easyui-dialog" style="width:500px;height:400px;" striped="true" 
+    closed="true" maximizable="true" singleSelect="false" buttons="#dlg-buttons">
+    <div class="ftitle">订单信息</div> 
+    <form id="fm" method="post" >
+      <div class="fitem" style="display: none"> 
+        <label>ID:</label>
+        <input id="toolbar_id" name="id" class="easyui-textbox" style="width: 180px;" readonly="readonly" />
+      </div>
+      <div class="fitem">
+        <label>姓名:</label>
+        <input id="name" name="name" class="easyui-textbox" style="width: 180px;" data-options="iconCls:'icon-man'" required="true">
+      </div>
+      <div class="fitem">
+        <label>用户ID:</label>
+        <input id="user_id" name="user_id" class="easyui-textbox" style="width: 180px;" required="true">
+      </div>
+      <div class="fitem">
+        <label>创建日期:</label>
+        <input id="create_time" class= "easyui-datetimebox" name="create_time" style="width: 180px;" data-options="showSeconds:true">
+      </div>
+      <div class="fitem" >
+        <label>订单状态:</label>
+        <input id="order_status" name="order_status"  class= "easyui-textbox" style="width: 180px;"/>
+      </div>
+      <div class="fitem" >
+        <label>价格:</label>
+        <input id="price" name="price" class= "easyui-textbox" style="width: 180px;">
+      </div>
+      <div class="fitem">
+        <label>付款日期:</label>
+        <input id="pay_time" name="pay_time"  class= "easyui-datetimebox" style="width: 180px;" data-options="showSeconds:true"/>
+      </div>
+   
+    </form> 
+  </div>
+  <div id="dlg-buttons">
+    <a id="save" href="#" class="easyui-linkbutton" iconCls="icon-ok">保存</a>
+    <a href="#" class="easyui-linkbutton" iconCls="icon-cancel" onclick="javascript:$('#dlg').dialog('close')">取消</a>
+  </div>
+</body>
+</html>

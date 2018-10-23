@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>进出记录列表</title>
+<script src="/easyui/jquery.min.js"></script>
+<script src=/easyui/jquery.easyui.min.js></script>
+<link href="/easyui/themes/default/easyui.css" rel="stylesheet"/>
+<link href="/easyui/themes/icon.css" rel="stylesheet"/>
+<script type="text/javascript" src="/easyui/locale/easyui-lang-zh_CN.js"></script>
+<script type="text/javascript" src="main.js"></script>
+<style type="text/css">
+    #fm{
+      margin:0;
+      padding:10px 30px;
+    }
+    .ftitle{
+      text-align: center;
+      font-size:14px;
+      font-weight:bold;
+      color:#666;
+      padding:5px 0;
+      margin-bottom:10px;
+      border-bottom:1px solid #ccc;
+    }
+    .fitem{
+      margin-bottom:5px;
+    }
+    .fitem label{
+      display:inline-block;
+      width:80px;
+    }
+</style>
+</head>
+<body>
+  <table id="dg" title="进出信息" class="easyui-datagrid" style="width:100%;"
+    url="/record/records"
+    toolbar="#toolbar" method="get" 
+    rownumbers="true" fitColumns="true" singleSelect="true" pagination="true">
+    <thead>
+      <tr>
+        <th field="id" width="50">ID</th>
+        <th field="name" width="50" >教室名称</th>
+        <th field="seat_no" width="50" >座位号</th>
+        <th field="status" width="50" formatter="status">座位状态</th>
+        <th field="operate_time" width="50">操作时间</th>
+        <th field="details" width="50" >详细信息</th>
+        <!-- <th field="reservation_id" width="50" >预约记录ID</th> -->
+      </tr>
+    </thead>
+  </table>
+  <div id="toolbar">
+    <a id="add" href="#" class="easyui-linkbutton" iconCls="icon-add" plain="true">新增</a>
+    <a id="edit" href="#" class="easyui-linkbutton" iconCls="icon-edit" plain="true" >编辑</a>
+    <a id="delete" href="#" class="easyui-linkbutton" iconCls="icon-remove" plain="true" >删除</a>
+    <span>ID:</span>
+    <input id="toolbar_id" class="easyui-textbox">
+    <span>帐号:</span>
+    <input id="toolbar_name"class="easyui-textbox">
+    <a href="#" class="easyui-linkbutton" iconCls="icon-search" id="do_search" >搜索</a>
+  </div>
+  <!-- 编辑和新增 --> 
+  <div id="dlg" class="easyui-dialog" style="width:500px;height:400px;" striped="true" 
+    closed="true" maximizable="true" singleSelect="false" buttons="#dlg-buttons">
+    <div class="ftitle">预约信息</div> 
+    <form id="fm" method="post" >
+      <div class="fitem" style="display: none"> 
+        <label>ID:</label>
+        <input id="id" name="id" class="easyui-textbox" style="width: 180px;" readonly="readonly" />
+      </div>
+      <div class="fitem">
+        <label>座位状态:</label>
+        <input id="status" name="status" class="easyui-textbox" style="width: 180px;" required="true">
+      </div>
+      <div class="fitem">
+        <label>详细信息:</label>
+        <input id="details" name="details" class="easyui-textbox" style="width: 180px;" required="true">
+      </div>
+      <div class="fitem">
+        <label>预约记录ID:</label>
+        <input id="reservation_id" name="reservation_id" class="easyui-textbox" style="width: 180px;" required="true">
+      </div>
+    </form> 
+  </div>
+  <div id="dlg-buttons">
+    <a id="save" href="#" class="easyui-linkbutton" iconCls="icon-ok">保存</a>
+    <a href="#" class="easyui-linkbutton" iconCls="icon-cancel" onclick="javascript:$('#dlg').dialog('close')">取消</a>
+  </div>
+</body>
+</html>

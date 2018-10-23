@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>组织机构列表</title>
+<script src="/easyui/jquery.min.js"></script>
+<script src=/easyui/jquery.easyui.min.js></script>
+<link href="/easyui/themes/default/easyui.css" rel="stylesheet"/>
+<link href="/easyui/themes/icon.css" rel="stylesheet"/>
+<script type="text/javascript" src="/easyui/locale/easyui-lang-zh_CN.js"></script>
+<script type="text/javascript" src="main.js"></script>
+<style type="text/css">
+    #fm{
+      margin:0;
+      padding:10px 30px;
+    }
+    .ftitle{
+      text-align: center;
+      font-size:14px;
+      font-weight:bold;
+      color:#666;
+      padding:5px 0;
+      margin-bottom:10px;
+      border-bottom:1px solid #ccc;
+    }
+    .fitem{
+      margin-bottom:5px;
+    }
+    .fitem label{
+      display:inline-block;
+      width:80px;
+    }
+</style>
+</head>
+<body>
+  <body class="easyui-layout">
+  <div region="north"  title="操作栏" style="height:70px;overflow:hidden;">
+    <div id="tbRole" style="padding:5px;height:auto">  
+	    <div style="margin-bottom:5px">  
+	          <div style="float: left;">  
+	              <a href="#" id="add" class="easyui-linkbutton" iconCls="icon-add" plain="true" title="添加">新增</a>  
+	          </div>  
+	    </div>  
+    </div>
+  </div>
+  <div region="west" split="true" title="组织名称" style="width:200px;overflow:hidden;">
+     <ul id="tt" class="easyui-tree" ></ul>
+  </div>
+  <div region="center" split="true" title="组织信息" style="">
+    <div id="cc" class="easyui-layout" style="width:100%;height:100%;">
+      <div data-options="region:'north',title:'组织信息',split:true" style="height:130px;">
+        <table id="org_data_grid" style="width:100%;"></table>
+      </div>
+      <div data-options="region:'center',title:'组织人员',split:true">
+        <table id="user_data_grid"></table>
+      </div>
+   </div>
+  </div>
+  <div id="dlg_add" class="easyui-dialog" title="新增组织机构" style="width:400px;height:200px;"
+        data-options="iconCls:'icon-add',resizable:true,modal:true,closed:true" buttons="#btns">
+    <div class="ftitle">组织信息</div>
+    <form id="fm" method="post">
+      <input id="fm_id" name="id" type="hidden"/>
+      <div class="fitem">
+        <label>上级组织名称:</label> 
+        <select id="parent_id" name="parent_id" class="easyui-combotree" style="width:200px;"
+            data-options="url:'/sys/org/tree',method:'GET'">
+        </select>
+      </div>
+      <div class="fitem">
+        <label>组织名称:</label>
+        <input id="org_name" name="org_name"  class="easyui-textbox"  required="true"/>
+      </div>
+    </form>
+  </div>
+  <div id="btns">
+    <a id="save" href="#" class="easyui-linkbutton" iconCls="icon-ok">保存</a>
+    <a href="#" class="easyui-linkbutton" iconCls="icon-cancel" onclick="javascript:$('#dlg_add').dialog('close')">取消</a>
+  </div>
+  <div id="tb_org_data">
+    <a id="tb_org_edit" href="#" class="easyui-linkbutton" iconCls="icon-edit" plain="true" >编辑</a>
+    <a id="tb_org_delete" href="#" class="easyui-linkbutton" iconCls="icon-remove" plain="true" >删除</a>
+  </div>
+  <div id="tb_user_data">
+    <a id="tb_user_delete" href="#" class="easyui-linkbutton" iconCls="icon-remove" plain="true" >删除</a>
+  </div> 
+</body>
+</html>

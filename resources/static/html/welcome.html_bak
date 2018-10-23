@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8"/>
+<title>座位预约系统</title>
+<script src="/easyui/jquery.min.js"></script> 
+<script src="/easyui/jquery.easyui.min.js"></script>
+<link href="/easyui/themes/default/easyui.css" rel="stylesheet"/>
+<link href="/easyui/themes/icon.css" rel="stylesheet"/>
+<script type="text/javascript" src="easyui/locale/easyui-lang-zh_CN.js"></script>
+<script src="/js/welcome.js"></script>
+</head>
+<body class="easyui-layout">
+  <div align="right" id="north" region="north" border="false" style="height:50px;">
+  	<div id="current_user"></div>
+    <!-- <a href="javascript:void(0)" id="current_user" class="easyui-menubutton" style="margin-top:13px;margin-right:90px;"    
+        data-options="menu:'#mm',iconCls:'icon-man'"></a>   --> 
+    <div id="mm" style="width:150px;">   
+        <div id="edit_user" data-options="iconCls:'icon-edit'">修改个人信息</div>   
+        <div id="logout" data-options="iconCls:'icon-cancel'">退出系统</div>   
+    </div> 
+  </div>
+  <div region="west" split="true" title="菜单管理" style="width:200px;overflow:hidden;">
+    <div class="easyui-accordion" id="parent_menu" style="width:100%;height:100%;">
+      <div title="钱小勤" iconCls="icon-menu1">
+            <ul id="qxq" class="easyui-tree">
+            	<li>
+            		<span>日志管理</span>
+                    <ul>
+                      <li><a onclick="addTab('实时日志','/html/log/main.html')">实时日志</a></li>
+                      <li><a onclick="addTab('日志文件','/html/log/file.html')">日志文件</a></li>
+                    </ul>
+            	</li>
+            	<li>
+            		<span>图书馆</span>
+                    <ul>
+                      <li><a onclick="addTab('教室详情','/html/room/main.html')">教室信息</a></li>
+                      <li><a onclick="addTab('座位管理','/html/seat/main.html')">座位管理</a></li>
+                      <li><a onclick="addTab('预约管理','/html/reservation/main.html')">预约管理</a></li>
+                      <li><a onclick="addTab('进出记录管理','/html/record/main.html')">进出记录管理</a></li>
+                      <li><a onclick="addTab('一卡通关系','/html/carduser/main.html')">一卡通关系</a></li>
+                    </ul>
+            	</li>
+            	<li>
+            		<span>部门</span>
+                    <ul>
+                      <li><a onclick="addTab('教师','/html/teacher/main.html')">教师</a></li>
+                      <li><a onclick="addTab('部门','/html/department/main.html')">部门</a></li>
+                      <li><a onclick="addTab('用户','/html/user/main.html')">用户</a></li>
+                    </ul>
+            	</li>
+                <li>
+                    <span>事件</span>
+                    <ul>
+                      <!-- <li><a onclick="addTab('托管','/html/amcust/main.html')">托管</a></li> -->
+                      <li><a onclick="addTab('用户','/html/user/main.html')">用户</a></li>
+                      <li><a onclick="addTab('打卡','/html/sign/main.html')">打卡</a></li>
+                      <li><a onclick="addTab('书本信息','/html/book/main.html')">书本信息</a></li>
+                      <li><a onclick="addTab('订单管理','/html/order/main.html')">订单管理</a></li>
+                      <li><a onclick="addTab('订单详情','/html/detail/main.html')">订单详情</a></li>
+                      <li><a onclick="addTab('仓库详情','/html/repo/main.html')">仓库信息</a></li>
+                      <li><a onclick="addTab('6-用户管理','/html/userinfo/main.html')">6-用户管理</a></li>
+                    </ul>
+                </li>
+            </ul>
+      </div>
+      <div title="统一资源管理" iconCls="icon-menu3">
+	        <ul id="sourcesManage" class="easyui-tree">
+	            <li>
+	                 <span>组织机构</span>
+	                 <ul>
+	                 <li><a onclick="addTab('用户管理','/html/sys/userinfo/main.html')">用户管理</a></li>
+	                 <li><a onclick="addTab('组织管理','/html/sys/org/main.html')">组织管理</a></li>
+	                 <li><a onclick="addTab('角色管理','/html/sys/role/main.html')">角色管理</a></li>
+	                 <li><a onclick="addTab('资源管理','/html/sys/resources/main.html')">资源管理</a></li>
+	        		 </ul>
+	            </li>
+	            <li>
+	               <span>资源管理</span>
+	               	<ul>
+	                    <li><a onclick="addTab('虚拟机基本信息','jsp/virtualMachine/virtualBaseInfo.jsp')">虚拟机基本信息</a></li>
+	               	</ul>
+	            </li>
+	            <li>
+	               <span>角色管理</span>
+	                  <ul>
+	                    <li><a onclick="addTab('虚拟机基本信息','jsp/virtualMachine/virtualBaseInfo.jsp')">虚拟机基本信息</a></li>
+	                 </ul>
+	             </li>
+	          </ul>
+      </div>
+      <div title="系统配置" iconCls="icon-menu4">
+          <ul id="cooperationManage" class="easyui-tree">
+            <li>
+                <span>系统服务</span>
+                  <ul>
+                    <li><a  onclick="addTab('zookeeper','${pageContext.request.contextPath}/zk/home.do')">zookeeper</a></li>
+                    <li><a  onclick="addTab('连接池服务','${pageContext.request.contextPath}/admin/monitor/druid/index.html')">连接池服务</a></li>
+                    <li><a  onclick="addTab('字典服务','${pageContext.request.contextPath}/dic/list_dicType.do')">字典服务</a></li>
+                  </ul>
+              </li>    
+          </ul>
+      </div>
+      </div>
+      </div>
+    <!-- <div region="south" border="false" style="height:30px;background:#81C0C0;">
+        <p style="margin:0px auto;text-align:center;">@版权所有：</p>
+    </div> -->
+    <div region="center" border="true" title="主题" style="border-left:0px;border-right:0px;overflow:hidden;">        
+      <div id="tabsInfo" class="easyui-tabs" style="height:auto;overflow:hidden;" fit="true">
+          <div class="easyui-layout" title="首页" id="sy" ></div>
+      </div>    
+    </div>    
+</body>
+</html>

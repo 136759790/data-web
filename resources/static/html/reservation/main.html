@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>预约列表</title>
+<script src="/easyui/jquery.min.js"></script>
+<script src=/easyui/jquery.easyui.min.js></script>
+<link href="/easyui/themes/default/easyui.css" rel="stylesheet"/>
+<link href="/easyui/themes/icon.css" rel="stylesheet"/>
+<script type="text/javascript" src="/easyui/locale/easyui-lang-zh_CN.js"></script>
+<script type="text/javascript" src="/js/common.js"></script>
+<script type="text/javascript" src="main.js"></script>
+<style type="text/css">
+    #fm{
+      margin:0;
+      padding:10px 30px;
+    }
+    .ftitle{
+      text-align: center;
+      font-size:14px;
+      font-weight:bold;
+      color:#666;
+      padding:5px 0;
+      margin-bottom:10px;
+      border-bottom:1px solid #ccc;
+    }
+    .fitem{
+      margin-bottom:5px;
+    }
+    .fitem label{
+      display:inline-block;
+      width:80px;
+    }
+</style>
+</head>
+<body>
+ <table id="dg" ></table>
+  <div id="toolbar">
+    <a id="add" href="#" class="easyui-linkbutton" iconCls="icon-add" plain="true">新增</a>
+    <a id="edit" href="#" class="easyui-linkbutton" iconCls="icon-edit" plain="true" >编辑</a>
+    <a id="delete" href="#" class="easyui-linkbutton" iconCls="icon-remove" plain="true" >删除</a>
+    <span>ID:</span>
+    <input id="toolbar_id" class="easyui-textbox">
+    <span>预约人:</span>
+    <input id="toolbar_name"class="easyui-textbox">
+    <a href="#" class="easyui-linkbutton" iconCls="icon-search" id="do_search" >搜索</a>
+  </div>
+  <!-- 编辑和新增 --> 
+  <div id="dlg" class="easyui-dialog" style="width:500px;height:400px;" striped="true" 
+    closed="true" maximizable="true" singleSelect="false" buttons="#dlg-buttons">
+    <div class="ftitle">预约信息</div> 
+    <form id="fm" method="post" >
+      <div class="fitem" style="display: none"> 
+        <label>ID:</label>
+        <input id="id" name="id" class="easyui-textbox" style="width: 180px;" readonly="readonly" />
+      </div>
+      <div class="fitem">
+        <label>座位ID:</label>
+        <input id="seat_id" name="seat_id" class="easyui-textbox" style="width: 180px;" required="true">
+      </div>
+      <div class="fitem">
+        <label>提交时间:</label>
+        <input id="submit_time" name="submit_time" class= "easyui-datetimebox" style="width: 180px;" data-options="showSeconds:true">
+      </div>
+      <div class="fitem">
+        <label>预约时间:</label>
+        <input id="order_time" name="order_time" class= "easyui-datetimebox" style="width: 180px;" data-options="showSeconds:true">
+      </div>
+      <div class="fitem">
+        <label>操作时间:</label>
+        <input id="operate_time" name="operate_time" class= "easyui-datetimebox" style="width: 180px;" data-options="showSeconds:true">
+      </div>
+    </form> 
+  </div>
+  <div id="dlg-buttons">
+    <a id="save" href="#" class="easyui-linkbutton" iconCls="icon-ok">保存</a>
+    <a href="#" class="easyui-linkbutton" iconCls="icon-cancel" onclick="javascript:$('#dlg').dialog('close')">取消</a>
+  </div>
+</body>
+</html>

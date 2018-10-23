@@ -1,0 +1,7 @@
+/target/
+*.classpath
+*.prefs
+*.bak
+*.project
+.classpath
+

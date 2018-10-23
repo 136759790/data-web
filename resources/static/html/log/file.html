@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>日志文件</title>
+<script src="/easyui/jquery.min.js"></script>
+<script src=/easyui/jquery.easyui.min.js></script>
+<link href="/easyui/themes/default/easyui.css" rel="stylesheet"/>
+<link href="/easyui/themes/icon.css" rel="stylesheet"/>
+<script type="text/javascript" src="/easyui/locale/easyui-lang-zh_CN.js"></script>
+<script type="text/javascript" src="file.js"></script>
+<style type="text/css">
+    #fm{
+      margin:0;
+      padding:10px 30px;
+    }
+    .ftitle{
+      text-align: center;
+      font-size:14px;
+      font-weight:bold;
+      color:#666;
+      padding:5px 0;
+      margin-bottom:10px;
+      border-bottom:1px solid #ccc;
+    }
+    .fitem{
+      margin-bottom:5px;
+    }
+    .fitem label{
+      display:inline-block;
+      width:80px;
+    }
+</style>
+</head>
+
+<body>
+	 <div id="toolbar">
+	    <span>服务器地址：</span>
+	    <input id="ip" class="easyui-textbox" value="127.0.0.1">
+	    <span>日志路径</span>
+	    <input id="path" class="easyui-textbox" value="D:\log\2017\12">
+	    <span>日志文件后缀</span>
+	    <input id="suffix" class="easyui-textbox" value=".log">
+	    <a href="#" class="easyui-linkbutton"  id="get" >获取日志树</a>
+	    <a href="#" class="easyui-linkbutton"  id="download">下载</a>
+	    <a href="#" class="easyui-linkbutton"  id="view">在线预览</a>
+	 </div>
+  	 <div id="log_tree" class="easyui-tree"></div>
+  	 <form action="/log/download" method="get" id="fm">
+  	 	<input type="hidden" name="fileName" id="fileName"/>
+  	 </form>
+  	 <div id="dlg" class="easyui-dialog" closed="true" fit="true"
+		singleSelect="false" buttons="#dlg-buttons" maximizable="true" striped="true">
+		<div class="ftitle">日志信息</div>
+		<div id="logs"></div>
+		<input type="hidden" id="pre_pointer" value="0"/>
+		<input type="hidden" id="current_pointer" value="0"/>
+	</div>
+	<div id="dlg-buttons">
+		<a id="pre_page" href="#" class="easyui-linkbutton" >上一页</a>
+		<a id="after_page" href="#" class="easyui-linkbutton" >下一页</a>
+		<a id="cancel" href="#" class="easyui-linkbutton" iconCls="icon-cancel" onclick="javascript:$('#dlg').dialog('close')">取消</a>
+	</div>
+</body>
+</html>

@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.data.mvc.dao.OutMapper">
+	<resultMap type="com.data.mvc.model.ConfigOut" id="baseMap">
+		<result column="id" property="id" />
+		<result column="name" property="name" />
+		<result column="type" property="type" />
+		<result column="table" property="table" />
+		<collection property="elements" column="id" select="selectListEle"></collection>
+	</resultMap>
+	<insert id="insert" parameterType="com.data.mvc.model.ConfigOut">
+		insert into configout 
+			(name,`type`,`table`)
+			values
+			(#{name},#{type},#{table})
+	</insert>
+	<insert id="insertEle" parameterType="com.data.mvc.model.OutElement">
+		insert into outelement 
+			(outid,name,`type`)
+			values
+			(#{pid},#{name},#{type})
+	</insert>
+	<update id="update" parameterType="com.data.mvc.model.ConfigOut">
+		update configout 
+		<set>
+			name = #{name},
+			url = #{url},
+			username = #{username},
+			driver = #{driver},
+			max = #{max},
+			init = #{init},
+		</set>
+		where id = #{id}
+	</update>
+	<delete id="delete" parameterType="int">
+		delete from  configout where id = #{id}
+	</delete>
+	<delete id="deleteEle" parameterType="int">
+		delete from  outelement where id = #{id}
+	</delete>
+	<select id="selectOne" parameterType="int" resultType="com.data.mvc.model.ConfigOut">
+		select * from configout where id = #{id}
+	</select>
+	
+	<select id="selectOneByImid" parameterType="int" resultMap="baseMap">
+		select * from configout t where exists (select 1 from im_out i where i.imid = #{id} and i.outid = t.id)
+	</select>
+	
+	<select id="selectList" parameterType="com.data.mvc.model.ConfigOutParam" resultType="com.data.mvc.model.ConfigOut">
+		select * from configout 
+		<where>
+			<if test="name != null and name != ''">
+				and  name = #{name}
+			</if>
+		</where>
+	</select>
+	<select id="selectListEle" parameterType="int" resultType="com.data.mvc.model.OutElement">
+		select * from outelement  where outid = #{id}
+		
+	</select>
+	
+	
+	
+	
+	
+	
+</mapper>

@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.data.mvc.dao.DbMapper">
+	<insert id="insert" parameterType="com.data.mvc.model.Db">
+		insert into db 
+			(name,url,username,password,driver,max,init)
+			values
+			(#{name},#{url},#{username},#{password},#{driver},#{max},#{init})
+	</insert>
+	<update id="update" parameterType="com.data.mvc.model.Db">
+		update db 
+		<set>
+			name = #{name},
+			url = #{url},
+			username = #{username},
+			driver = #{driver},
+			max = #{max},
+			init = #{init},
+		</set>
+		where id = #{id}
+	</update>
+	<delete id="delete" parameterType="int">
+		delete from  db where id = #{id}
+	</delete>
+	<select id="selectOne" parameterType="int" resultType="com.data.mvc.model.Db">
+		select * from db where id = #{id}
+	</select>
+	<select id="selectOneByImid" parameterType="int" resultType="com.data.mvc.model.Db">
+		select * from db t where exists (select 1 from im_db i where i.imid = #{id} and i.dbid = t.id)
+	</select>
+	<select id="selectList" parameterType="com.data.mvc.model.DbParam" resultType="com.data.mvc.model.Db">
+		select * from db 
+		<where>
+			<if test="id != null">
+				and  id = #{id}
+			</if>
+			<if test="name != null and name != ''">
+				and  name = #{name}
+			</if>
+		</where>
+	</select>
+	
+	
+	
+	
+	
+	
+</mapper>

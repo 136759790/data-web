@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>实时日志</title>
+<script src="/easyui/jquery.min.js"></script>
+<script src=/easyui/jquery.easyui.min.js></script>
+<link href="/easyui/themes/default/easyui.css" rel="stylesheet"/>
+<link href="/easyui/themes/icon.css" rel="stylesheet"/>
+<script type="text/javascript" src="/easyui/locale/easyui-lang-zh_CN.js"></script>
+<script type="text/javascript" src="main.js"></script>
+<style type="text/css">
+    #fm{
+      margin:0;
+      padding:10px 30px;
+    }
+    .ftitle{
+      text-align: center;
+      font-size:14px;
+      font-weight:bold;
+      color:#666;
+      padding:5px 0;
+      margin-bottom:10px;
+      border-bottom:1px solid #ccc;
+    }
+    .fitem{
+      margin-bottom:5px;
+    }
+    .fitem label{
+      display:inline-block;
+      width:80px;
+    }
+</style>
+</head>
+<body>
+  <div id="toolbar">
+    <span>服务器:</span>
+    <select id="server" class="easyui-combobox" name="server" style="width:200px;">   
+	    <option value="local">本机</option>   
+	    <option value="http://localhost:8090/log/log">server-8090</option>   
+	    <option value="http://localhost:8091/log/log">server-8091</option>   
+	</select>
+    <span>每页条数:</span>
+    <input id="page_no" class="easyui-textbox" value="500">
+    <span>刷新间隔:</span>
+    <input id="refresh_time"class="easyui-textbox" value="1">s
+    <a href="#" class="easyui-linkbutton"  id="start" >启动</a>
+    <a href="#" class="easyui-linkbutton"  id="stop" >停止</a>
+    <a href="#" class="easyui-linkbutton"  id="clear" >清空</a>
+  </div>
+  <div id="logs" class="easyui-panel" title="日志内容"     
+        style="width:90%;height:450px;padding:10px;background:#fafafa;"   
+        data-options="iconCls:'icon-save',closable:true,collapsible:true,minimizable:true,maximizable:true"></div>
+</body>
+</html>

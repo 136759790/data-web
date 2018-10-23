@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>用户列表</title>
+<script src="/easyui/jquery.min.js"></script>
+<script src=/easyui/jquery.easyui.min.js></script>
+<link href="/easyui/themes/default/easyui.css" rel="stylesheet"/>
+<link href="/easyui/themes/icon.css" rel="stylesheet"/>
+<script type="text/javascript" src="/easyui/locale/easyui-lang-zh_CN.js"></script>
+<script type="text/javascript" src="main.js"></script>
+<style type="text/css">
+    #fm{
+      margin:0;
+      padding:10px 30px;
+    }
+    .ftitle{
+      text-align: center;
+      font-size:14px;
+      font-weight:bold;
+      color:#666;
+      padding:5px 0;
+      margin-bottom:10px;
+      border-bottom:1px solid #ccc;
+    }
+    .fitem{
+      margin-bottom:5px;
+    }
+    .fitem label{
+      display:inline-block;
+      width:80px;
+    }
+</style>
+</head>
+<body>
+  <table id="dg" title="角色信息" class="easyui-datagrid" style="width:100%;"
+    url="/sys/roles" method="get"
+    toolbar="#toolbar"
+    rownumbers="true" fitColumns="true" singleSelect="true" pagination="true">
+    <thead>
+      <tr>
+        <th field="id" width="50">ID</th>
+        <th field="role_name" width="50">角色名称</th>
+        <th field="role_code" width="50">角色编码</th>
+        <th field="role_enable" formatter="formatEnable"width="50">是否可用</th>
+        <th field="role_remark"  width="50">描述</th>
+      </tr>
+    </thead>
+  </table>
+  <div id="toolbar">
+    <a id="add" href="#" class="easyui-linkbutton" iconCls="icon-add" plain="true">新增</a>
+    <a id="edit" href="#" class="easyui-linkbutton" iconCls="icon-edit" plain="true" >编辑</a>
+    <a id="delete" href="#" class="easyui-linkbutton" iconCls="icon-remove" plain="true" >删除</a>
+    <a id="setOrg" href="#" class="easyui-linkbutton" iconCls="icon-sum" plain="true" >分配人员</a>
+    <a id="setRes" href="#" class="easyui-linkbutton" iconCls="icon-tip" plain="true" >分配资源</a>
+    <span>ID:</span>
+    <input id="id" class="easyui-textbox">
+    <span>名称:</span>
+    <input id="role_name"class="easyui-textbox">
+    <span>代码:</span>
+    <input id="role_code"class="easyui-textbox">
+    <a href="#" class="easyui-linkbutton" iconCls="icon-search" id="do_search" >搜索</a>
+  </div>
+  <!-- 编辑和新增 -->
+  <div id="dlg" class="easyui-dialog" style="width:500px;height:400px;"
+    closed="true" maximizable="true" buttons="#dlg-buttons">
+    <div class="ftitle">角色信息</div>
+    <form id="fm" method="post">
+      <input id="id" name="id" type="hidden"/>
+      <div class="fitem">
+        <label>角色名称:</label>
+        <input id="role_name" name="role_name" class="easyui-textbox"  required="true">
+      </div>
+      <div class="fitem">
+        <label>角色代码:</label>
+        <input id="role_code" name="role_code" class="easyui-textbox" required="true">
+      </div>
+      <div class="fitem">
+        <label>是否可用:</label> 
+        <select id="role_enable" name="role_enable" class="easyui-combobox" >
+          <option value="Y" selected="selected">可用</option>
+          <option value="N">禁用</option>
+        </select> 
+      </div>
+      <div class="fitem">
+        <label>描述:</label>
+        <input id="role_remark" name="role_remark" class="easyui-textbox" style="width:300px;height:100px" data-options="multiline:true">
+      </div>
+    </form>
+  </div>
+  <div id="dlg_set_res" class="easyui-dialog" style="width:500px;height:400px;" closed="true" maximizable="true" title="分配资源" fit="true">
+    <div id="role_user_layout" class="easyui-layout"fit="true">   
+        <div data-options="region:'north',title:'角色信息',split:false" style="height:100px;">
+            <table id="table_role_detail_res" class="easyui-datagrid" fit="true">   
+            <thead>   
+                <tr>   
+                    <th field="id" width="10%">ID</th>
+			              <th field="role_name" width="20%">角色名称</th>
+			              <th field="role_code" width="20%">角色编码</th>
+			              <th field="role_enable" formatter="formatEnable"width="20%">是否可用</th>
+			              <th field="role_remark"  width="30%">描述</th>  
+                </tr>   
+            </thead>   
+        </table>
+        </div>  
+        <div data-options="region:'west',title:'资源树',split:true" style="width:20%;">
+          <ul id="res_tree"></ul>
+        </div>    
+        <div data-options="region:'center',title:'资源信息'">
+          <!-- <div id="tt" class="easyui-tabs" fit="true">   
+            <div title="所有资源">   
+              <table id="dg_list_all_res" class="easyui-datagrid" fit="true"
+	              rownumbers="true" fitColumns="true" singleSelect="true">
+	            </table>
+	            <div id="tb_list_all_res">
+	              <a href="#" class="easyui-linkbutton" iconCls="icon-add" id="do_add_all_res" >添加</a>
+	            </div>
+            </div>   
+            <div title="我的资源" data-options="closable:true">   
+	            <div id="dg_list_my_res"></div>
+	            <div id="tb_list_my_res"></div>    
+            </div>   --> 
+            <div title="我的资源树" data-options="closable:true">   
+	            <div id="dg_tree_my_res"></div>
+            </div>   
+        </div> 
+        </div>   
+    </div> 
+  </div>
+  <div id="manage_org" class="easyui-dialog" title="选择组织机构"
+        closed="true" maximizable="true"fit="true">
+        <div id="role_user_layout" class="easyui-layout"fit="true">   
+        <div data-options="region:'north',title:'角色信息',split:false" style="height:100px;">
+         <table id="table_role_detail" class="easyui-datagrid" fit="true">   
+            <thead>   
+                <tr>   
+                  <th field="id" width="10%">ID</th>
+	              <th field="role_name" width="20%">角色名称</th>
+	              <th field="role_code" width="20%">角色编码</th>
+	              <th field="role_enable" formatter="formatEnable"width="20%">是否可用</th>
+	              <th field="role_remark" width="30%">描述</th>  
+                </tr>   
+            </thead>   
+        </table>
+        </div>  
+        <div data-options="region:'west',title:'已有人员',split:true" style="width:50%;">
+        <div id="dg_list_my_user"></div>
+        <div id="tb_list_my_user">
+          <span>ID:</span>
+          <input id="my_user_id" style="width: 50px;" class="easyui-textbox">
+          <span>帐号:</span>
+          <input id="my_username"style="width: 100px;"class="easyui-textbox">
+          <span>昵称:</span>
+          <input id="my_nickname"style="width: 100px;"class="easyui-textbox">
+          <a href="#" class="easyui-linkbutton" iconCls="icon-search" id="do_search_my_user" >搜索</a>
+          <a href="#" class="easyui-linkbutton" iconCls="icon-remove" id="do_remove_user" >移除</a>
+        </div>
+        </div>    
+        <div data-options="region:'center',title:'全部人员'">
+          <table id="dg_list_all_user"  class="easyui-datagrid" fit="true"
+          url="/sys/users"  method="get"
+          toolbar="#tb_list_all_user"
+          rownumbers="true" fitColumns="true" pagination="true" singleSelect="true">
+          <thead>
+            <tr>
+              <th field="id" width="50">ID</th>
+              <th field="username" width="50">账号</th>
+              <th field="nickname" width="50">姓名</th>
+              <th field="orgs" formatter="formatOrg"width="50">所属部门</th>
+            </tr>
+          </thead>
+        </table>
+        <div id="tb_list_all_user">
+          <span>ID:</span>
+          <input id="all_user_id" style="width: 50px;" class="easyui-textbox">
+          <span>帐号:</span>
+          <input id="all_username"style="width: 100px;"class="easyui-textbox">
+          <span>昵称:</span>
+          <input id="all_nickname"style="width: 100px;"class="easyui-textbox">
+          <a href="#" class="easyui-linkbutton" iconCls="icon-search" id="do_search_all_user" >搜索</a>
+          <a href="#" class="easyui-linkbutton" iconCls="icon-add" id="do_add_user" >添加</a>
+        </div>
+        </div>   
+    </div> 
+  </div>
+  <div id="dlg-buttons">
+    <a id="save" href="#" class="easyui-linkbutton" iconCls="icon-ok">保存</a>
+    <a href="#" class="easyui-linkbutton" iconCls="icon-cancel" onclick="javascript:$('#dlg').dialog('close')">取消</a>
+  </div>
+  <div id="menu_all_tree" class="easyui-menu" style="width:120px;">
+	<div onclick="append('res_tree')" data-options="iconCls:'icon-add'">添加</div>
+	<div onclick="remove('res_tree')" data-options="iconCls:'icon-remove'">移除</div>
+  </div>
+  <div id="menu_my_tree" class="easyui-menu" style="width:120px;">
+	<div onclick="remove('dg_tree_my_res')" data-options="iconCls:'icon-remove'">移除</div>
+  </div>
+</body>
+</html>

@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>教室信息</title>
+<script src="/easyui/jquery.min.js"></script>
+<script src=/easyui/jquery.easyui.min.js></script>
+<link href="/easyui/themes/default/easyui.css" rel="stylesheet"/>
+<link href="/easyui/themes/icon.css" rel="stylesheet"/>
+<script type="text/javascript" src="/easyui/locale/easyui-lang-zh_CN.js"></script>
+<script type="text/javascript" src="main.js"></script>
+<style type="text/css">
+    #fm{
+      margin:0;
+      padding:10px 30px;
+    }
+    .ftitle{
+      text-align: center;
+      font-size:14px;
+      font-weight:bold;
+      color:#666;
+      padding:5px 0;
+      margin-bottom:10px;
+      border-bottom:1px solid #ccc;
+    }
+    .fitem{
+      margin-bottom:5px;
+    }
+    .fitem label{
+      display:inline-block;
+      width:80px;
+    }
+</style>
+</head>
+<body>
+
+
+
+  
+  <table id="dg" title="教室列表" class="easyui-datagrid" style="width:100%;"
+    toolbar="#toolbar"
+    url="/room/rooms"
+    method="get" 
+    rownumbers="true" fitColumns="true" singleSelect="true" pagination="true">
+    <thead>
+      <tr>
+        <th field="id"  >ID</th>
+        <th field="code" width="10">阅览室编码</th>
+        <th field="name" width="30">阅览室名称</th>
+        <th field="total_st" >可预约座位总数</th>
+        <th field="rest_st" formatter="fn_rest" >已预约座位数</th>
+        <th field="order" width="10" formatter="order">预约</th>
+      </tr>
+    </thead>
+  </table>
+  
+  <div id="toolbar" >
+    <a id="add" href="#" class="easyui-linkbutton" iconCls="icon-add" plain="true">新增</a>
+    <a id="edit" href="#" class="easyui-linkbutton" iconCls="icon-edit" plain="true" >编辑</a>
+    <a id="delete" href="#" class="easyui-linkbutton" iconCls="icon-remove" plain="true" >删除</a>
+	    <span>预约日期:</span>
+	    <input id="toolbar_time" class= "easyui-datebox" style="width: 180px;"/>
+	    <a href="#" class="easyui-linkbutton" iconCls="icon-search" id="do_search" >搜索</a>
+  </div> 
+  
+  <!-- 编辑和新增 --> 
+  <div id="dlg" class="easyui-dialog" style="width:500px;height:400px;" striped="true" 
+    closed="true" maximizable="true" singleSelect="false" buttons="#dlg-buttons">
+    <div class="ftitle">教室信息</div> 
+    <form id="fm" method="post" >
+      <div class="fitem" style="display: none"> 
+        <label>ID:</label>
+        <input id="toolbar_id" name="id" class="easyui-textbox" style="width: 180px;" readonly="readonly" />
+      </div>
+      <div class="fitem">
+        <label>阅览室编码:</label>
+        <input id="code" name="code" class="easyui-textbox" style="width: 180px;" required="true">
+      </div>
+      <div class="fitem">
+        <label>阅览室名称:</label>
+        <input id="name" name="name" class="easyui-textbox" style="width: 180px;" required="true">
+      </div>
+      <div class="fitem">
+        <label>座位总数:</label>
+        <input id="total_st" name="total_st" class= "easyui-textbox"  style="width: 180px;" />
+      </div>
+      <div class="fitem" >
+        <label>剩余座位数:</label>
+        <input id="rest_st" name="rest_st"  class= "easyui-textbox" style="width: 180px;"/>
+      </div>
+      <div class="fitem" >
+        <label>教室座位图:</label>
+        <input id="room_pic" name="room_pic"  class= "easyui-textbox" style="width: 180px;"/>
+      </div>
+   
+    </form> 
+  </div>
+  <div id="dlg-buttons">
+    <a id="save" href="#" class="easyui-linkbutton" iconCls="icon-ok">保存</a>
+    <a href="#" class="easyui-linkbutton" iconCls="icon-cancel" onclick="javascript:$('#dlg').dialog('close')">取消</a>
+  </div>
+  <!-- 教室位置选择 -->
+	<div id="dlg_seats" style="display: none;"></div>
+  
+</body>
+</html>

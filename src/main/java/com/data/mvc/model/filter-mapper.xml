@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.data.mvc.dao.FilterMapper">
+	<insert id="insert" parameterType="com.data.mvc.model.Filter">
+		insert into filter 
+			(name,pattern,type,clazz)
+			values
+			(#{name},#{pattern},#{type},#{clazz})
+	</insert>
+	<update id="update" parameterType="com.data.mvc.model.Filter">
+		update filter 
+		<set>
+			name = #{name},
+			pattern = #{pattern},
+			type = #{type},
+			clazz = #{clazz},
+		</set>
+		where id = #{id}
+	</update>
+	<delete id="delete" parameterType="int">
+		delete from  filter where id = #{id}
+	</delete>
+	<select id="selectOne" parameterType="int" resultType="com.data.mvc.model.Filter">
+		select * from filter where id = #{id}
+	</select>
+	<select id="selectList" parameterType="com.data.mvc.model.FilterParam" resultType="com.data.mvc.model.Filter">
+		select * from filter t
+		<where>
+			<if test="id != null">
+				and  t.id = #{id}
+			</if>
+			<if test="name != null and name != ''">
+				and t.name LIKE CONCAT('%',#{name},'%') 
+			</if>
+			<if test="elementId != null">
+				and  exists (select 1 from filter_inelement f where f.inelement_id = #{elementId} and f.filter_id = t.id)
+			</if>
+		</where>
+	</select>
+	<select id="selectFiltersByElementId" parameterType="int" resultType="com.data.mvc.model.Filter">
+		select * from filter t
+			where	exists (select 1 from filter_inelement f where f.inelement_id = #{id} and f.filter_id = t.id)
+	</select>
+	<delete id="deleteByElementId" parameterType="int">
+		delete from filter_inelement where inelement_id = #{id}
+	</delete>
+	<insert id="insertRelation" parameterType="int">
+		insert into filter_inelement ( filter_id,inelement_id)
+		values(#{filterId},#{elementId})
+	</insert>
+	
+	
+	
+	
+	
+	
+</mapper>

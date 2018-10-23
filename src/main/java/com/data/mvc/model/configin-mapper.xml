@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.data.mvc.dao.InMapper">
+
+	<!-- <resultMap type="com.data.mvc.model.ConfigIn" id="baseMap">
+		<result column="id" property="id" />
+		<result column="name" property="name" />
+		<result column="blockcount" property="blockcount" />
+		<collection property="elements" column="id" select="selectListEle"></collection>
+	</resultMap> -->
+	<resultMap type="com.data.mvc.model.ConfigIn" id="baseMap">
+		<result column="id" property="id" />
+		<result column="name" property="name" />
+		<result column="blockcount" property="blockcount" />
+		<result column="type" property="type" />
+		<result column="skip" property="skip" />
+		<result column="table" property="table" />
+		<result column="store_type" property="store_type" />
+		<collection property="elements" ofType="com.data.mvc.model.InElement">
+			<result column="e_id" property="id" />
+			<result column="e_inid" property="inid" />
+			<result column="e_key" property="key" />
+			<result column="e_value" property="value" />
+			<result column="e_index" property="index" />
+			<result column="e_type" property="type" />
+			<result column="e_pattern" property="pattern" />
+			<collection property="filters" ofType="com.data.mvc.model.Filter">
+				<result column="f_id" property="id" />
+				<result column="f_name" property="name" />
+				<result column="f_pattern" property="pattern" />
+				<result column="f_type" property="type" />
+				<result column="f_clazz" property="clazz" />
+			</collection>
+		</collection>
+	</resultMap>
+	<insert id="insert" parameterType="com.data.mvc.model.ConfigIn" useGeneratedKeys="true">
+		insert into configin 
+			(name,blockcount,type,skip,`table`,store_type)
+			values
+			(#{name},#{blockcount},#{type},#{skip},#{table},#{store_type;})
+	</insert>
+	<insert id="insertEle" parameterType="com.data.mvc.model.ConfigIn">
+		insert into inelement 
+			(inid,`key`,`value`,`index`,`type`,pattern)
+			values
+			(#{inid},#{key},#{value},#{index},#{type},#{pattern})
+	</insert>
+	<update id="update" parameterType="com.data.mvc.model.ConfigIn">
+		update configin 
+		<set>
+			name = #{name},
+			blockcount = #{blockcount},
+			type = #{type},
+			`table` = #{table},
+			skip = #{skip},
+			store_type = #{store_type},
+		</set>
+		where id = #{id}
+	</update>
+	<delete id="delete" parameterType="int">
+		delete from  configin where id = #{id}
+	</delete>
+	<delete id="deleteEle" parameterType="int">
+		delete from  inelement where id = #{id}
+	</delete>
+	<select id="selectOne" parameterType="int" resultType="com.data.mvc.model.ConfigIn">
+		select * from configin where id = #{id}
+	</select>
+	<select id="selectOneByImid" parameterType="int" resultMap="baseMap">
+		select 
+			t.* ,
+		    e.id as e_id,
+		    e.`index` as e_index,
+		    e.inid as e_inid,
+		    e.`key` as e_key,
+		    e.`value` as e_value,
+		    e.`type` as e_type,
+    		e.`pattern` as e_pattern,
+		    f.id as f_id,
+		    f.name as f_name,
+		    f.pattern as f_pattern,
+		    f.type as f_type,
+		    f.clazz as f_clazz
+		 from configin t 
+			left join inelement e on t.id = e.inid 
+		    left join filter f on exists (select 1 from filter_inelement fe where e.id = fe.inelement_id and fe.filter_id = f.id)
+		where exists (select 1 from im_in i where i.imid = #{id} and i.inid = t.id)
+	</select>
+	<select id="selectList" parameterType="com.data.mvc.model.ConfigInParam" resultType="com.data.mvc.model.ConfigIn">
+		select * from configin 
+		<where>
+			<if test="name != null and name != ''">
+				and name LIKE CONCAT('%',#{name},'%')
+			</if>
+			<if test="table != null and table != ''">
+				and table = #{table}
+			</if>
+		</where>
+	</select>
+	<resultMap type="com.data.mvc.model.InElement" id="elementResult">
+		<result column="id" property="id" />
+		<result column="inid" property="inid" />
+		<result column="key" property="key" />
+		<result column="value" property="value" />
+		<result column="index" property="index" />
+		<result column="type" property="type" />
+		<result column="pattern" property="pattern" />
+		<collection property="filters" column="id" select="com.data.mvc.dao.FilterMapper.selectFiltersByElementId"></collection>
+	</resultMap>
+	<select id="selectListEle" parameterType="int" resultMap="elementResult">
+		select * from inelement where inid = #{inid}
+	</select>
+	
+	
+	
+	
+	
+	
+</mapper>

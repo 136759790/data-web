@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>教室位置</title>
+<script src="/easyui/jquery.min.js"></script>
+</head>
+<body>
+
+	<div style="width: 100%" align="center">
+		<h2>座位预约</h2>
+		预约时间： <input id="order_time" class="easyui-datebox" name="order_time"  />
+		<hr/>
+	</div>
+	<table id="seat_table" style="width: 100%;padding: 10px,10px,10px,10px;">
+	</table>
+	<script>
+		$(function(){
+			//绑定事件
+			$("#seat_table").on("click","td.free",function(){
+				var seat_no=$(this).attr("seat_no");
+				if(confirm("您确认预约座位号为"+seat_no+"的座位？")){
+					$.ajax({
+						url:"/seat/order",
+						data:{id:$(this).attr("seat_id"),order_time:$('#order_time').val()},
+						type:'post',
+						async:false,
+						dataType:'json',
+						success:function(data){
+							alert(data.result_msg);
+							$('#dlg_seats').window('refresh');  
+						}
+					});
+				} 
+			});
+			//日期限制
+			$('#order_time').datebox().datebox('calendar').calendar({
+				validator: function(date){
+					var now = new Date();
+					var d1 = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+					var d2 = new Date(now.getFullYear(), now.getMonth(), now.getDate()+3);
+					return d1<=date && date<=d2;
+				}
+			});
+			debugger
+			$('#order_time').datebox({
+			    onSelect: function(date){
+					loadSeats(14,getToday(date));
+			    }
+			});
+			$('#order_time').datebox('setValue', getToday(new Date()));	
+			debugger
+			loadSeats(order_room_id,$('#order_time').val());
+			
+		});
+function getToday(mydate){
+	   var str = "" + mydate.getFullYear() + "-";
+	   str += (mydate.getMonth()+1) + "-";
+	   str += mydate.getDate();
+	   return str;
+}
+function loadSeats(room_id,order_date){
+	$.ajax({
+		url:"/seat/getRoomSeat",
+		data:{q_room_id:room_id,order_date:order_date},
+		type:'GET',
+		async:false,
+		dataType:'json',
+		success:function(data){
+			$("#seat_table").html("");
+			var html="<tr>";
+			$.each(data,function(i,e){
+				var ele_html="";
+				if(e.code == 0){//未预约
+					ele_html="<td seat_id="+e.id+" seat_no="+e.seat_no+" class=\"seat free\">"+e.seat_no+"号座位</td>";
+				}else{
+					ele_html="<td seat_id="+e.id+" seat_no="+e.seat_no+"  class=\"seat used\">"+e.seat_no+"号座位</td>";
+				}
+				if(i !=0 && (i+1)%2 == 0  && (i+1)%6 != 0 ){//2 或者 4
+					var road_html="<td class=\"road\"></td><td class=\"road\"></td>";
+					html = html + ele_html +road_html;
+				}else if(i !=0  && (i+1)%6 == 0){//6
+					var end_html="</tr>";
+					if(i == data.length){
+						end_html="</tr>";
+					}else{
+						end_html="</tr><tr>";
+					}
+					html = html + ele_html +end_html;
+				}else{
+					html = html + ele_html;
+				}
+			});
+			$("#seat_table").append(html);
+		}
+	});
+}
+	</script>
+	<style type="text/css">
+	.seat{
+		text-align: center;
+		height: 70px;
+		width: 15%;
+		cursor: pointer;
+	}
+	.free:hover{
+		background-color: #89e07f;
+	}
+	.road{
+		text-align: center;
+		height: 50px;
+		width: 2%;
+	}
+	.used{
+		background-color: red;
+		cursor: not-allowed;
+	}
+	.free{
+		background-color: #57ca49;
+	}
+</style>
+</body>
+</html>

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration     PUBLIC "-//mybatis.org//DTD Config 3.0//EN"   "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+	<settings>
+		<setting name="logImpl" value="STDOUT_LOGGING" />
+	</settings>
+	<typeAliases>
+		<typeAlias alias="User" type="com.qian.springmvc.modules.user.model.User"/>
+		<typeAlias alias="OrgModel" type="com.qian.springmvc.base.security.org.model.Org"/>
+		<typeAlias alias="RoleModel" type="com.qian.springmvc.base.security.role.model.Role"/>
+		<typeAlias alias="TreeModel" type="com.qian.springmvc.base.result.Tree"/>
+		<typeAlias alias="ResModel" type="com.qian.springmvc.base.security.resource.model.Resource"/>
+	</typeAliases>
+</configuration>

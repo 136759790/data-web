@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.data.mvc.dao.ImportMapper">
+	<resultMap type="com.data.mvc.model.Import" id="baseResult">
+		<result column="id" property="id"/>
+		<result column="name" property="name"/>
+		<result column="description" property="description"/>
+		<association property="db" column="id" select="com.data.mvc.dao.DbMapper.selectOneByImid"></association>
+		<association property="in" column="id" select="com.data.mvc.dao.InMapper.selectOneByImid"></association>
+		<association property="out" column="id" select="com.data.mvc.dao.OutMapper.selectOneByImid"></association>
+		<association property="threadIn" column="id" select="com.data.mvc.dao.ThreadMapper.selectOneInByImid"></association>
+		<association property="threadOut" column="id" select="com.data.mvc.dao.ThreadMapper.selectOneOutByImid"></association>
+	</resultMap>
+	<insert id="insert" parameterType="com.data.mvc.model.Import">
+		insert into import 
+			(name,description,policy)
+			values
+			(#{name},#{description},#{policy})
+	</insert>
+	<update id="update" parameterType="com.data.mvc.model.Import">
+		update import 
+		<set>
+			name = #{name},
+			description = #{description},
+			policy = #{policy},
+		</set>
+		where id = #{id}
+	</update>
+	<delete id="delete" parameterType="int">
+		delete from  import where id = #{id}
+	</delete>
+	<select id="selectOne" parameterType="int" resultMap="baseResult">
+		select * from import where id = #{id}
+	</select>
+	<select id="selectList" parameterType="com.data.mvc.model.ImportParam" resultType="com.data.mvc.model.Import">
+		select * from import 
+		<where>
+			<if test="id != null">
+				and  id = #{id}
+			</if>
+			<if test="name != null and name != ''">
+				and name LIKE CONCAT('%',#{name},'%')
+			</if>
+			<if test="description != null and description != ''">
+				and description LIKE CONCAT('%',#{description},'%')
+			</if>
+		</where>
+	</select>
+	
+	<insert id="insertIn" parameterType="int">
+		insert into im_in 
+			(imid,inid)
+			values
+			(#{imid},#{inid})
+	</insert>
+	<insert id="insertOut" parameterType="int">
+		insert into im_out 
+			(imid,outid)
+			values
+			(#{imid},#{outid})
+	</insert>
+	<insert id="insertDb" parameterType="int">
+		insert into im_db 
+			(imid,dbid)
+			values
+			(#{imid},#{dbid})
+	</insert>
+	<insert id="insertTh" parameterType="int">
+		insert into im_th 
+			(imid,thid)
+			values
+			(#{imid},#{thid})
+	</insert>
+	
+	<delete id="deleteIn" parameterType="int">
+		delete from im_in where imid = #{imid}
+	</delete>
+	<delete id="deleteOut" parameterType="int">
+		delete from im_out where imid = #{imid}
+	</delete>
+	<delete id="deleteDb" parameterType="int">
+		delete from im_db where imid = #{imid}
+	</delete>
+	<delete id="deleteTh" parameterType="int">
+		delete from im_th where imid = #{imid}
+	</delete>
+	
+	
+</mapper>

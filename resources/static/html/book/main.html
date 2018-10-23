@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>书本信息</title>
+<script src="/easyui/jquery.min.js"></script>
+<script src=/easyui/jquery.easyui.min.js></script>
+<link href="/easyui/themes/default/easyui.css" rel="stylesheet"/>
+<link href="/easyui/themes/icon.css" rel="stylesheet"/>
+<script type="text/javascript" src="/easyui/locale/easyui-lang-zh_CN.js"></script>
+<script type="text/javascript" src="main.js"></script>
+<style type="text/css">
+    #fm{
+      margin:0;
+      padding:10px 30px;
+    }
+    .ftitle{
+      text-align: center;
+      font-size:14px;
+      font-weight:bold;
+      color:#666;
+      padding:5px 0;
+      margin-bottom:10px;
+      border-bottom:1px solid #ccc;
+    }
+    .fitem{
+      margin-bottom:5px;
+    }
+    .fitem label{
+      display:inline-block;
+      width:80px;
+    }
+</style>
+</head>
+<body>
+	
+	<table id="dg" class="easyui-datagrid" title="书本信息" style="width:100%;"
+		url="/book/books"
+		toolbar="#toolbar" 
+		method="get"
+		rownumbers="true"
+		fitColumns="true"
+		striped="true"
+		checkOnSelect="true"
+		singleSelect="false"
+		pagination="true">
+		<thead>
+			<tr>
+				<th field="ck" checkbox="true"></th>
+				<th field="name" width="50">姓名</th>
+				<th field="price" width="50">价格</th>
+				<th field="count"  formatter="fop" width="50">购买数量</th>
+			</tr>
+		</thead>
+	</table>
+	
+	<div id="toolbar">
+		<a id="add" href="#" class="easyui-linkbutton" iconCls="icon-add" plain="true">新增</a>
+		<a id="edit" href="#" class="easyui-linkbutton" iconCls="icon-edit" plain="true">编辑</a>
+		<a id="delete" href="#" class="easyui-linkbutton" iconCls="icon-remove" plain="true">删除</a>
+		<a id="makeOrder" href="#" class="easyui-linkbutton" plain="true">下单</a>
+		<span>ID:</span>
+		<input id="toolbar_id" class="easyui-textbox"/>
+		<span>帐号:</span>
+		<input id="toolbar_name"class="easyui-textbox"/>
+		<a id="do-search" href="#" class="easyui-linkbutton" iconCls="icon-search">搜索</a>
+	</div>
+	
+	<div id="dlg" class="easyui-dialog" style="width:500px; height:400px;"
+		striped="true" closed="true" maximizable="true" singleSelect="false" buttons="#dlg-buttons">
+		<div class="ftitle">书本信息</div>
+		<form id="fm" method="post">
+			<div class="fitem" style="display: none">
+				<label>ID：</label>
+				<input id="id" name="id" class="easyui-textbox" readonly="readonly"/>
+			</div>
+			<div class="fitem" >
+				<label>姓名：</label>
+				<input id="name" name="name" class="easyui-textbox" iconCls="icon-man" required="true"/>
+			</div>
+			<div class="fitem" >
+				<label>价格：</label>
+				<input id="price" name="price" class="easyui-textbox"  required="true"/>
+			</div>
+			<div class="fitem" >
+				<label>购买数量：</label>
+				<input id="count" name="count"class="easyui-numberspinner" 
+						required="required" data-options="min:10,max:100,editable:false">  
+			</div>
+		</form>
+	</div>
+	<div id="dlg-buttons">
+		<a id="save" href="#" class="easyui-linkbutton" iconCls="icon-ok">保存</a>
+		<a id="cancel" href="#" class="easyui-linkbutton" iconCls="icon-cencel" onclick="javascript:$('#dlg').dialog('close')">取消</a>
+	</div>
+</body>
+</html>

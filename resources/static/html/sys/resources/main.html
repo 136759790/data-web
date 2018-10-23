@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>资源管理</title>
+<script src="/easyui/jquery.min.js"></script>
+<script src=/easyui/jquery.easyui.min.js></script>
+<link href="/easyui/themes/default/easyui.css" rel="stylesheet"/>
+<link href="/easyui/themes/icon.css" rel="stylesheet"/>
+<script type="text/javascript" src="/easyui/locale/easyui-lang-zh_CN.js"></script>
+<script type="text/javascript" src="main.js"></script>
+<style type="text/css">
+    #fm{
+      margin:0;
+      padding:10px 30px;
+    }
+    .ftitle{
+      text-align: center;
+      font-size:14px;
+      font-weight:bold;
+      color:#666;
+      padding:5px 0;
+      margin-bottom:10px;
+      border-bottom:1px solid #ccc;
+    }
+    .fitem{
+      margin-bottom:5px;
+    }
+    .fitem label{
+      display:inline-block;
+      width:80px;
+    }
+</style>
+</head>
+<body>
+  <body class="easyui-layout">
+  <div region="north"  title="操作栏" style="height:70px;overflow:hidden;">
+    <div id="tbRole" style="padding:5px;height:auto">  
+    <div style="margin-bottom:5px">  
+          <div style="float: left;">  
+              <a href="#" id="add" class="easyui-linkbutton" iconCls="icon-add" plain="true" title="添加">新增</a>  
+              <a href="#" id="update" class="easyui-linkbutton" iconCls="icon-edit" plain="true" title="修改">修改</a>  
+          </div>  
+          <div class="datagrid-btn-separator" style="margin-left: 5px;float: left;margin-right: 15px;"></div>  
+          <input class="easyui-textbox" id="txtRoleName" style="width:120px" data-options="prompt:'请输入组织名称'" />  
+          <a href="javascript:searchRole();" class="easyui-linkbutton" iconCls="icon-search">查询</a>  
+      </div>  
+    </div>
+   </div>
+   <div region="west" split="true" title="资源树" style="width:200px;overflow:hidden;">
+      <ul id="res_tree" class="easyui-tree">
+    </ul>
+     </div>
+     <div region="center" split="true" title="资源信息" style="width:200px;overflow:hidden;">
+     <div id="cc" class="easyui-layout" style="width:100%;height:100%;">
+      <div data-options="region:'north',title:'资源信息',split:true" style="height:130px;">
+        <table id="res_data_grid" style="width:100%;"></table>
+      </div>
+      <div data-options="region:'center',title:'资源角色',split:true">
+        <table id="role_data_grid"></table>
+      </div>
+   </div>
+     </div>
+     <div id="dlg_add" class="easyui-dialog" style="width:400px;height:400px;"
+    closed="true" maximizable="true" buttons="#dlg-buttons">
+    <div class="ftitle">资源信息</div>
+    <form id="fm" method="post">
+      <input type="hidden" id="res_id" name="id" />
+      <div class="fitem">
+        <label>资源名称:</label>
+        <input id="res_name" name="res_name" class="easyui-textbox" required="true">
+      </div>
+      <div class="fitem">
+        <label>资源代码:</label>
+        <input id="res_code" name="res_code" class="easyui-textbox"  required="true">
+      </div>
+      <div class="fitem">
+        <label>资源种类:</label> 
+        <select id="res_type" name="res_type" width="50"  class="easyui-combobox" >
+          <option value="link" selected="selected">链接</option>
+          <option value="button">按钮</option>
+          <option value="module">模块</option>
+        </select> 
+      </div>
+      <div class="fitem">
+        <label>资源链接:</label>
+        <input id="res_url" name="res_url" class="easyui-textbox" required="true">
+      </div>
+      <div class="fitem" style="display: hidden">
+        <label>上级资源名称:</label>
+        <select id="parent_id" name="parent_id" class="easyui-combotree" style="width:200px;"
+            data-options="url:'/sys/res/tree',method:'get'">
+        </select>
+      </div>
+      <div class="fitem">
+        <label>资源顺序:</label>
+        <input id="res_order" name="res_order" class="easyui-textbox" >
+      </div>
+      <div class="fitem">
+        <label>是否可用:</label> 
+        <select id="res_enable" name="res_enable" class="easyui-combobox" >
+          <option value="Y" selected="selected">可用</option>
+          <option value="N">禁用</option>
+        </select> 
+      </div>
+    </form>
+  </div>
+  <div id="dlg-buttons">
+    <a id="save" href="#" class="easyui-linkbutton" iconCls="icon-ok">保存</a>
+    <a href="#" class="easyui-linkbutton" iconCls="icon-cancel" onclick="javascript:$('#dlg_add').dialog('close')">取消</a>
+  </div>
+  <div id="tb_res_data">
+    <a id="tb_res_edit" href="#" class="easyui-linkbutton" iconCls="icon-edit" plain="true" >编辑</a>
+    <a id="tb_res_delete" href="#" class="easyui-linkbutton" iconCls="icon-remove" plain="true" >删除</a>
+  </div>
+  <div id="tb_role_data">
+    <a id="tb_role_delete" href="#" class="easyui-linkbutton" iconCls="icon-remove" plain="true" >删除</a>
+  </div>
+</body>
+</html>

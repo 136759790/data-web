@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>签到列表</title>
+<script src="/easyui/jquery.min.js"></script>
+<script src=/easyui/jquery.easyui.min.js></script>
+<link href="/easyui/themes/default/easyui.css" rel="stylesheet"/>
+<link href="main.css" rel="stylesheet"/>
+<link href="/easyui/themes/icon.css" rel="stylesheet"/>
+<script type="text/javascript" src="/easyui/locale/easyui-lang-zh_CN.js"></script>
+<style type="text/css">
+.calendar table td, 
+.calendar table th {
+    font-size: 20px;
+}
+</style>
+</head>
+<body class="easyui-layout">
+	<div region="west" split="true" style="width:50%;height:100%">
+		<div id="start" class="easyui-calendar" firstDay="1" border="true" style="width:100%;height:100% " ></div>
+	</div>
+	 <div region="center" border="true" style="width:50%;height:100% "> 
+		<div id="end" class="easyui-calendar" firstDay="1" border="true" style="width:100%;height:100% " ></div>
+	</div>
+</body>
+<script>
+	$(function(){
+		$.ajax({
+			url:"/sign/signDays",
+			type:"get",
+			async:false,
+			success:function(data){
+				$.each(data,function(i,e){
+					var d=e.sign_date;
+					var date= d.split(" ")[0];
+					date=date.replace(/-/g,",");
+					if(e.sign_type=="in"){
+						$("#start [abbr='"+date+"']").addClass("signin");
+					}else{
+						$("#end [abbr='"+date+"']").addClass("signout");
+					}
+				});
+			}
+		});
+	});
+</script>
+</html>

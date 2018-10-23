@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.data.mvc.dao.ThreadMapper">
+	<insert id="insert" parameterType="com.data.mvc.model.ThreadModel">
+		insert into data_thread 
+			(name,type,core,max,keepalive,queuesize)
+			values
+			(#{name},#{type},#{core},#{max},#{keepalive},#{queuesize})
+	</insert>
+	<update id="update" parameterType="com.data.mvc.model.ThreadModel">
+		update data_thread 
+		<set>
+			name = #{name},
+			type = #{type},
+			core = #{core},
+			max = #{max},
+			keepalive = #{keepalive},
+			queuesize = #{queuesize},
+		</set>
+		where id = #{id}
+	</update>
+	<delete id="delete" parameterType="int">
+		delete from  data_thread where id = #{id}
+	</delete>
+	<select id="selectOne" parameterType="int" resultType="com.data.mvc.model.ThreadModel">
+		select * from data_thread where id = #{id}
+	</select>
+	<select id="selectOneInByImid" parameterType="int" resultType="com.data.mvc.model.ThreadModel">
+		select * from data_thread t where t.type ='in' and exists (select 1 from im_th i where i.imid = #{id} and i.thid = t.id)
+	</select>
+	<select id="selectOneOutByImid" parameterType="int" resultType="com.data.mvc.model.ThreadModel">
+		select * from data_thread t where t.type ='out' and exists (select 1 from im_th i where i.imid = #{id} and i.thid = t.id)
+	</select>
+	<select id="selectList" parameterType="com.data.mvc.model.ThreadModelParam" resultType="com.data.mvc.model.ThreadModel">
+		select * from data_thread 
+		<where>
+			<if test="id != null">
+				and  id = #{id}
+			</if>
+			<if test="name != null and name != ''">
+				and  name = #{name}
+			</if>
+			<if test="type != null and type != ''">
+				and  type = #{type}
+			</if>
+		</where>
+	</select>
+	
+	
+	
+	
+	
+	
+</mapper>
